@@ -1,64 +1,41 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        cdn-home
-      </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
+  <div class="main">
+    <byu-hero-banner id="hero" image-source="img/eiffel-tower.jpg" class="full-screen light-image">
+      <span slot="headline">Web Community CDN</span>
+      <span slot="intro-text">Fast, secure, easy delivery of BYU Web resources.</span>
+      <nuxt-link slot="read-more" to="/directory">Explore</nuxt-link>
+    </byu-hero-banner>
+    <div class="content-wrapper">
+
     </div>
-  </section>
+  </div>
 </template>
 
-<script>
-import AppLogo from '~/components/AppLogo.vue'
+<style lang="scss">
+  @import '../assets/main.scss';
+  .content-wrapper {
+    @include main-page-contents();
+  }
+  @media (max-width: 500px) {
+    [slot=headline] {
+      font-size: 40px;
+      line-height: normal;
+    }
+  }
+</style>
 
+<script>
 export default {
-  components: {
-    AppLogo
+  layout: 'no-constrained-width',
+  head() {
+    return {
+      style: [
+        {type: 'stylesheet', type: 'text/css', href: 'https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css'},
+      ],
+      script: [
+        {async: true, src: 'https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js'},
+      ],
+    }
   }
 }
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

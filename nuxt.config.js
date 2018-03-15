@@ -10,7 +10,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.css' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.byu.edu/theme-fonts/latest/gotham-ringside-vitesse.css'},
+    ],
+    script: [
+      { async: 'async', src: 'https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.js' }
     ]
   },
   /*

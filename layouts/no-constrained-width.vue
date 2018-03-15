@@ -1,17 +1,17 @@
 <template>
   <PageWrapper>
-    <div class="content-wrapper">
+    <div class="unconstrained-content-wrapper">
       <nuxt />
     </div>
   </PageWrapper>
 </template>
 
 <style lang="scss">
-  @import '../assets/main.scss';
-  .content-wrapper {
-    @include main-page-contents();
+  .unconstrained-content-wrapper {
+    flex-grow: 1;
   }
 </style>
+
 
 <script>
 import PageWrapper from '~/components/PageWrapper.vue';
