@@ -4,7 +4,8 @@
       <span slot="site-title">Web Community CDN</span>
       <span slot="site-title" class="subtitle">Serving Files So You Don't Have To</span>
       <byu-menu slot="nav" active-selector=".nuxt-link-active">
-        <nuxt-link to="/">Home</nuxt-link>
+        <nuxt-link to="/" exact>Home</nuxt-link>
+        <nuxt-link to="/directory">Explore</nuxt-link>
       </byu-menu>
     </byu-header>
     <slot></slot>

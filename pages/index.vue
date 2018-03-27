@@ -12,30 +12,57 @@
 </template>
 
 <style lang="scss">
-  @import '../assets/main.scss';
-  .content-wrapper {
-    @include main-page-contents();
+@import "../assets/main.scss";
+.content-wrapper {
+  @include main-page-contents();
+}
+@media (max-width: 500px) {
+  [slot="headline"] {
+    font-size: 40px;
+    line-height: normal;
   }
-  @media (max-width: 500px) {
-    [slot=headline] {
-      font-size: 40px;
-      line-height: normal;
-    }
-  }
+}
 </style>
 
 <script>
 export default {
-  layout: 'no-constrained-width',
+  layout: "no-constrained-width",
   head() {
     return {
       style: [
-        {type: 'stylesheet', type: 'text/css', href: 'https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css'},
+        {
+          rel: "preload",
+          href:
+            "https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js",
+          as: "script"
+        },
+        {
+          rel: "preload",
+          href:
+            "https://cdn.byu.edu/byu-hero-banner/latest/components.min.js",
+          as: "script"
+        },
+        {
+          rel: "preload",
+          href:
+            "https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css",
+          as: "style"
+        },
+        {
+          type: "stylesheet",
+          type: "text/css",
+          href:
+            "https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css"
+        }
       ],
       script: [
-        {async: true, src: 'https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js'},
-      ],
-    }
+        {
+          async: true,
+          src:
+            "https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js"
+        }
+      ]
+    };
   }
-}
+};
 </script>

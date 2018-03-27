@@ -12,3 +12,7 @@
     @include constrained-width();
     flex-grow: 1;
 }
+
+* {
+    font-family: "Gotham A","Gotham B",Arial,sans-serif;
+}
