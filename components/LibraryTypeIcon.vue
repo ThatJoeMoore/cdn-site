@@ -15,7 +15,7 @@ export default {
   props: ["type", "size"],
   computed: {
     icon: function() {
-        return typeIcons[this.type];
+        return typeIcons[this.type] || 'help_outline';
     }
   }
 };

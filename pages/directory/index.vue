@@ -1,5 +1,5 @@
 <template>
-    <div class="list">
+    <div class="directory-list">
         <nuxt-link 
             v-for="lib in libraries" :key="lib.id" 
             :to="{path: lib.id}" append 
@@ -17,50 +17,54 @@
 <style lang="scss">
 @import "../../assets/_colors.scss";
 
-.list {
+.directory-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 2em 0;
-}
 
-.lib {
-  display: flex;
-  text-decoration: none;
-  color: black;
-  flex-direction: row;
-  cursor: pointer;
-  padding: 0.5em 1em;
+  .lib {
+    display: flex;
+    text-decoration: none;
+    color: black;
+    flex-direction: row;
+    cursor: pointer;
+    padding: 0.5em 1em;
 
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 
-  .name {
-    font-size: 1.2em;
-  }
+    .name {
+      font-size: 1.2em;
+    }
 
-  .descr {
-    font-size: 0.8em;
-  }
+    .text {
+      flex: 1;
+      margin-left: 1em;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .text {
-    flex: 1;
-    margin-left: 1em;
-  }
-
-  .lib-logo {
-    color: $text_medium_gray;
-  }
-
-  .path {
-    font-family: "Source Code Pro", monospace;
-    font-size: 0.8em;
-  }
-
-  &:hover {
-    background-color: $accent_blue;
-    color: white;
+    .descr {
+      font-size: 0.8em;
+      min-height: 2em;
+      flex-grow: 1;
+    }
 
     .lib-logo {
+      color: $text_medium_gray;
+    }
+
+    .path {
+      font-family: "Source Code Pro", monospace;
+      font-size: 0.8em;
+    }
+
+    &:hover {
+      background-color: $accent_blue;
       color: white;
+
+      .lib-logo {
+        color: white;
+      }
     }
   }
 }
@@ -79,6 +83,8 @@ export default {
     const manifest = await loadManifest();
     return { libraries: manifest.libraryArray };
   },
-  methods: {}
+  // mounted() {
+  //   window.scrollTo(0, 0);   
+  // },
 };
 </script>

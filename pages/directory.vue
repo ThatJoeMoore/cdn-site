@@ -7,11 +7,6 @@
 <style lang="scss">
 @import "../assets/_colors.scss";
 
-.directory {
-  // display: grid;
-  // grid-template-columns: 1fr 1fr;
-  // margin: 2em 0;
-}
 </style>
 
 <script>

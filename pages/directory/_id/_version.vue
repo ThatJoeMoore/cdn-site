@@ -4,21 +4,28 @@
 
         <h3>Resources</h3>
         <ul>
-            <li v-for="(meta, res) in version.manifest.resources" :key="res">
+            <li v-for="(meta, res) in manifest.resources" :key="res">
                 {{res}}
             </li>
-            </ul>
+        </ul>
     </div>
 </template>
 
 <script>
-import { loadLibraryVersion } from "~/assets/manifest-loader.js";
+import { loadLibraryVersion, loadLibraryVersionManifest } from "~/assets/manifest-loader.js";
 
 export default {
   scollToTop: true,
-  asyncData: async function({ params, error }) {
+  asyncData: async function({ params, error, payload }) {
+      if (payload) {
+          return payload;
+      }
     const version = await loadLibraryVersion(params.id, params.version);
-    return { version };
+    const manifest = await loadLibraryVersionManifest(params.id, params.version);
+    return { version, manifest };
   },
+//   mounted() {
+//       window.scrollTo(0, 0);
+//   },
 };
 </script>

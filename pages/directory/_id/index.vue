@@ -42,10 +42,13 @@ export default {
       return { title: this.lib.name };
     }
   },
-  asyncData: async function({ params, error }) {
-    const lib = await loadLibrary(params.id);
+  asyncData: async function({ params, error, payload }) {
+    const lib = payload ? payload : await loadLibrary(params.id);
     return { lib };
   },
+  // mounted() {
+  //     window.scrollTo(0, 0);
+  // },
   computed: {
     aliases() {
       const l = this.lib;
