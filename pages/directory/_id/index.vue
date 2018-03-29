@@ -66,7 +66,10 @@ export default {
       });
     },
     releases() {
-      return this.versions.filter(it => it.type === "release");
+      return this.versions.filter(it => it.type === "release")
+        .sort((one, two) => {
+          return semver.rcompare(semver.coerce(one.name), semver.coerce(two.name));
+        });
     },
     experiments() {
       return this.versions.filter(it => it.type === "branch");

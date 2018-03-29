@@ -22,12 +22,25 @@ const typeMappings = {
   "theme-fonts": "font",
   "byu-random-content": "web-component",
   "browser-oauth-implicit": "javascript",
+  "byu-user-info-oauth": "web-component",
   "browser-oauth": "javascript",
   "byu-person-lookup": "web-component"
 };
 
+const libraryTypes = [
+  { id: 'web-component', display: 'Web Components' },
+  { id: 'javascript', display: 'Javascript' },
+  { id: 'stylesheet', display: 'CSS Stylesheets' },
+  { id: 'font', display: 'Fonts' },
+  { id: 'images', display: 'Images & Icons' },
+];
+
 let promise;
 let cached;
+
+export function allLibraryTypes() {
+  return [...libraryTypes];
+}
 
 function prepLibraries(manifest) {
   return Object.entries(manifest.libraries)

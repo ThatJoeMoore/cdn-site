@@ -1,0 +1,24 @@
+
+@import './_colors.scss';
+@import './_vars.scss';
+
+@mixin constrained-width {
+    max-width: $site-max-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin main-page-contents {
+    @include constrained-width();
+    flex-grow: 1;
+}
+
+@mixin type--default {
+    font-family: "Gotham A","Gotham B",Arial,sans-serif;
+}
+
+@mixin type--mono {
+    font-family: 'Source Code Pro', 'Courier New', Courier, monospace;
+}
+

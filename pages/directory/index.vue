@@ -1,8 +1,18 @@
 <template>
+    <div class="dir-list-wrapper">
+      <div class="dir-list-types">
+        <v-btn-toggle multiple v-model="typeFilters">
+        <v-btn v-for="type in libraryTypes" :key="type.id" :value="type.id" depressed>
+          <LibraryTypeIcon :type="type.id" size="14px;"></LibraryTypeIcon>
+          <span>{{type.display}}</span>
+        </v-btn>
+        </v-btn-toggle>
+      </div>
     <div class="directory-list">
         <nuxt-link 
             v-for="lib in libraries" :key="lib.id" 
             :to="{path: lib.id}" append 
+            v-ripple
             class="lib">
           <LibraryTypeIcon class="lib-logo" :type="lib.type" size="45px" />
           <div class="text">
@@ -12,10 +22,12 @@
           </div>
         </nuxt-link>
     </div>
+    </div>
 </template>
 
 <style lang="scss">
 @import "../../assets/_colors.scss";
+@import "../../assets/_mixins.scss";
 
 .directory-list {
   display: grid;
@@ -54,8 +66,8 @@
     }
 
     .path {
-      font-family: "Source Code Pro", monospace;
-      font-size: 0.8em;
+      @include type--mono();
+      // font-size: 0.8em;
     }
 
     &:hover {
@@ -72,19 +84,25 @@
 
 <script>
 import LibraryTypeIcon from "~/components/LibraryTypeIcon.vue";
-import { loadManifest } from "~/assets/manifest-loader.js";
+import { loadManifest, allLibraryTypes } from "~/assets/manifest-loader.js";
 
 export default {
   components: { LibraryTypeIcon },
   head: {
     title: "Directory"
   },
-  asyncData: async function({ params, error }) {
+  async asyncData({ params, error }) {
     const manifest = await loadManifest();
     return { libraries: manifest.libraryArray };
   },
+  data() {
+    return {
+      libraryTypes: allLibraryTypes(),
+      typeFilters: allLibraryTypes().map(t => t.id),
+    };
+  }
   // mounted() {
-  //   window.scrollTo(0, 0);   
+  //   window.scrollTo(0, 0);
   // },
 };
 </script>

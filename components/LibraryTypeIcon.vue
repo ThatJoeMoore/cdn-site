@@ -4,11 +4,11 @@
 
 <script>
 const typeIcons = {
-  "web-component": "extension",
-  javascript: "power",
+  "web-component": "code",
+  javascript: "mdi-language-javascript",
   stylesheet: "palette",
   font: "text_fields",
-  images: "image",
+  images: "collections",
   unknown: "help_outline"
 };
 export default {
@@ -17,6 +17,6 @@ export default {
     icon: function() {
         return typeIcons[this.type] || 'help_outline';
     }
-  }
+  },
 };
 </script>

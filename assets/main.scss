@@ -1,18 +1,20 @@
 
 @import './_vars.scss';
+@import './_mixins.scss';
 
-@mixin constrained-width {
-    max-width: $site-max-width;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@mixin main-page-contents {
-    @include constrained-width();
-    flex-grow: 1;
-}
-
-* {
+body {
+    @include type--default();
     font-family: "Gotham A","Gotham B",Arial,sans-serif;
 }
+
+.type--mono {
+    @include type--mono();
+}
+
+.page-enter-active, .page-leave-active {
+    transition: opacity .2s;
+  }
+  .page-enter, .page-leave-to {
+    opacity: 0;
+  }
+

@@ -24,9 +24,10 @@ module.exports = {
       { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.css' },
       { rel: 'stylesheet', type: 'text/css', href: 'https://cloud.typography.com/75214/6517752/css/fonts.css'},
       { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700|Source+Code+Pro|Material+Icons' },
+      { rel: 'stylesheet', href: 'https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css', type: 'text/css' },
     ],
     script: [
-      { async: 'async', src: 'https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.js' }
+      { async: 'async', src: 'https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.js' },
     ]
   },
   /*
@@ -89,6 +90,7 @@ module.exports = {
   },
   generate: {
     interval: 100,
+    dir: 'docs/~/',
     routes: async function() {
       const resp = await axios.get('https://dev.cdn.byu.edu/manifest.json');
       const manifest = resp.data;

@@ -1,11 +1,13 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import {
   Vuetify,
   VCard,
   VList,
   VBtn,
+  VBtnToggle,
   VIcon,
-} from 'vuetify'
+} from 'vuetify';
+import { Ripple } from 'vuetify/es5/directives/index.js';
 
 Vue.use(Vuetify, {
   components: {
@@ -13,6 +15,10 @@ Vue.use(Vuetify, {
     VList,
     VBtn,
     VIcon,
+    VBtnToggle,
+  },
+  directives: {
+    Ripple
   },
   theme: {
     primary: '#002e5d',
