@@ -2,6 +2,19 @@ const nodeExternals = require('webpack-node-externals');
 const axios = require('axios');
 const resolve = (dir) => require('path').join(__dirname, dir);
 
+let routerBase = '';
+let generateDir = 'dist';
+
+switch (process.env.DEPLOY_ENV) {
+  case 'GH_PAGES':
+    routerBase = '/cdn-site/'
+    generateDir = 'docs'
+  break;
+  case 'CDN':
+    routerBase = '/~/'
+    break;
+}
+
 module.exports = {
   /*
   ** Headers of the page
@@ -35,7 +48,7 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   router: {
-    base: '/cdn-site/~/',
+    base: routerBase,
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition
@@ -90,7 +103,7 @@ module.exports = {
   },
   generate: {
     interval: 100,
-    dir: 'docs/~/',
+    dir: generateDir,
     routes: async function() {
       const resp = await axios.get('https://dev.cdn.byu.edu/manifest.json');
       const manifest = resp.data;
