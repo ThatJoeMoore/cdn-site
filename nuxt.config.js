@@ -35,7 +35,7 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   router: {
-    base: '/~/',
+    base: '/cdn-site/~/',
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition
