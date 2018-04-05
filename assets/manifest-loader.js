@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CDN_HOST = 'https://dev.cdn.byu.edu';
+const CDN_HOST = 'https://cdn.byu.edu';
 
 const hiddenLibraries = ["2017-core-components", "cdn-site"];
 

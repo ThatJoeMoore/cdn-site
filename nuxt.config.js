@@ -105,7 +105,7 @@ module.exports = {
     interval: 100,
     dir: generateDir,
     routes: async function() {
-      const resp = await axios.get('https://dev.cdn.byu.edu/manifest.json');
+      const resp = await axios.get('https://cdn.byu.edu/manifest.json');
       const manifest = resp.data;
       const routes = [];
       for ([id, lib] of Object.entries(manifest.libraries)) {
@@ -115,14 +115,18 @@ module.exports = {
           route: libRoute,
           payload: lib,
         });
-        for (version of lib.versions) {
-          const verPath = version.type === 'release' ? version.name : 'experimental/' + version.name;
-          const manifest = (await axios.get(`https://dev.cdn.byu.edu/${id}/${verPath}/.cdn-meta/version-manifest.json`)).data;
-          routes.push({
-            route: `${libRoute}/${version.name}`,
-            payload: {version, manifest},
-          });
-        }
+        const versionRoutes = await Promise.all(
+          lib.versions.map(async (version) => {
+            const verPath = version.type === 'release' ? version.name : 'experimental/' + version.name;
+            const start = Date.now();
+            const manifest = (await axios.get(`https://cdn.byu.edu/${id}/${verPath}/.cdn-meta/version-manifest.json`)).data;
+            return {
+              route: `${libRoute}/${version.name}`,
+              payload: {version, manifest},
+            };
+          })
+        );
+        routes.push(...versionRoutes);
       }
       return routes;
     }
