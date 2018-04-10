@@ -8,9 +8,12 @@
         </v-btn>
         </v-btn-toggle>
       </div>
+      <!-- <div style="margin: 20px;">
+        <v-switch label="Show Hidden Libraries" dark v-model="showHidden"></v-switch>
+      </div> -->
     <div class="directory-list">
         <nuxt-link 
-            v-for="lib in libraries" :key="lib.id" 
+            v-for="lib in shownLibraries" :key="lib.id" 
             :to="{path: lib.id}" append 
             v-ripple
             class="lib">
@@ -91,15 +94,27 @@ export default {
   head: {
     title: "Directory"
   },
-  async asyncData({ params, error }) {
-    const manifest = await loadManifest();
+  async asyncData(context) {
+    const { params, error } = context;
+    const manifest = await loadManifest(context);
     return { libraries: manifest.libraryArray };
   },
   data() {
     return {
       libraryTypes: allLibraryTypes(),
       typeFilters: allLibraryTypes().map(t => t.id),
+      showHidden: false,
     };
+  },
+  computed: {
+    shownLibraries() {
+      return this.libraries.filter(lib => {
+        if (!this.showHidden && !lib.show_in_directory) {
+          return false;
+        }
+        return this.typeFilters.includes(lib.type);
+      });
+    }
   }
   // mounted() {
   //   window.scrollTo(0, 0);

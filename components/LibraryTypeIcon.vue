@@ -4,7 +4,7 @@
 
 <script>
 const typeIcons = {
-  "web-component": "code",
+  "web-component": "mdi-code-not-equal-variant",
   javascript: "mdi-language-javascript",
   stylesheet: "palette",
   font: "text_fields",

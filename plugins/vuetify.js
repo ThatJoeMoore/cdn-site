@@ -7,6 +7,8 @@ import {
   VBtnToggle,
   VIcon,
   VExpansionPanel,
+  VSwitch,
+  VGrid,
 } from 'vuetify';
 import { Ripple } from 'vuetify/es5/directives/index.js';
 
@@ -18,6 +20,8 @@ Vue.use(Vuetify, {
     VIcon,
     VBtnToggle,
     VExpansionPanel,
+    VSwitch,
+    VGrid,
   },
   directives: {
     Ripple

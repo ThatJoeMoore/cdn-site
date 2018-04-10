@@ -1,32 +1,5 @@
 import axios from 'axios';
 
-const CDN_HOST = 'https://cdn.byu.edu';
-
-const hiddenLibraries = ["2017-core-components", "cdn-site"];
-
-// This is here until we include types in the CDN configs
-const typeMappings = {
-  "2017-core-components": "unknown",
-  "byu-theme-components": "web-component",
-  "byu-card": "web-component",
-  "byu-calendar-components": "web-component",
-  "byu-calendar-row": "web-component",
-  "byu-calendar-tile": "web-component",
-  "web-component-polyfills": "javascript",
-  "shared-icons": "images",
-  "byu-theme-style-helpers": "stylesheet",
-  "byu-news-components": "web-component",
-  "byu-feature-card": "web-component",
-  "byu-hero-banner": "web-component",
-  "byu-faculty-directory": "web-component",
-  "theme-fonts": "font",
-  "byu-random-content": "web-component",
-  "browser-oauth-implicit": "javascript",
-  "byu-user-info-oauth": "web-component",
-  "browser-oauth": "javascript",
-  "byu-person-lookup": "web-component"
-};
-
 const libraryTypes = [
   { id: 'web-component', display: 'Web Components' },
   { id: 'javascript', display: 'Javascript' },
@@ -34,9 +7,6 @@ const libraryTypes = [
   { id: 'font', display: 'Fonts' },
   { id: 'images', display: 'Images & Icons' },
 ];
-
-let promise;
-let cached;
 
 export function allLibraryTypes() {
   return [...libraryTypes];
@@ -46,47 +16,38 @@ function prepLibraries(manifest) {
   return Object.entries(manifest.libraries)
     .map(([id, lib]) => {
       lib.id = id;
-      lib.type = typeMappings[id] || "unknown";
       return lib;
-    })
-    .filter(lib => {
-      return !hiddenLibraries.includes(lib.id);
     })
     .sort((left, right) => left.name.localeCompare(right.name));
 }
 
-async function loadAndPrepManifest() {
+async function loadAndPrepManifest(host) {
   console.log('loading manifest');
-  const response = await axios(CDN_HOST + '/manifest.json')
+  const response = await axios(host + '/manifest.json')
   const manifest = response.data;
   manifest.libraryArray = prepLibraries(manifest);
   console.log('loaded manifest');
   return manifest;
 }
 
-export async function loadManifest() {
-  if (!cached) {
-    if (promise) {
-      await promise;
-    } else {
-      promise = loadAndPrepManifest();
-      cached = await promise;
-    }
+export async function loadManifest(context) {
+  if (!context.env.manifest) {
+    context.env.manifest = loadAndPrepManifest(context.env.cdnBase);
   }
-  return cached;
+  return context.env.manifest;
 }
 
-export async function loadLibrary(id) {
+export async function loadLibrary(context, id) {
   console.log('loadLibraryVersion', id);
-  const manifest = await loadManifest();
+  const manifest = await loadManifest(context);
 
   console.log('done with loadLibrary', id);
   return manifest.libraries[id];
 }
 
-export async function loadLibraryVersion(libId, versionName) {
+export async function loadLibraryVersion(context, libId, versionName) {
   console.log('loadLibraryVersion', libId, versionName);
-  const manifest = await loadManifest();
+  const manifest = await loadManifest(context);
 
   const lib = manifest.libraries[libId];
   if (!lib.versions) {
@@ -106,7 +67,7 @@ export async function loadLibraryVersion(libId, versionName) {
 
 const versionManifestCache = {};
 
-export async function loadLibraryVersionManifest(libId, versionName) {
+export async function loadLibraryVersionManifest(context, libId, versionName) {
   if (!versionManifestCache[libId]) {
     versionManifestCache[libId] = {};
   }
@@ -115,10 +76,9 @@ export async function loadLibraryVersionManifest(libId, versionName) {
     return cached;
   }
 
-  const version = await loadLibraryVersion(libId, versionName);
-  const versionPath = version.type === 'release' ? version.name : 'experimental/' + version.name;
+  const version = await loadLibraryVersion(context, libId, versionName);
 
-  const fetched = (await axios(`${CDN_HOST}/${libId}/${versionPath}/.cdn-meta/version-manifest.json`)).data;
+  const fetched = (await axios(context.env.cdnBase + version.manifest_path)).data;
   versionManifestCache[libId][versionName] = fetched;
   return fetched;
 }

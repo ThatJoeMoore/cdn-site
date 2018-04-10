@@ -1,7 +1,8 @@
 <template>
     <div class="version">
         <h2>{{version.name}}</h2>
-
+        {{version.basic_usage}}
+        
         <h3>Resources</h3>
         <!-- <ul>
             <li v-for="(meta, res) in manifest.resources" :key="res">
@@ -12,7 +13,8 @@
             <v-expansion-panel-content v-for="(group, groupId) in resourceGroups" :key="groupId">
                 <div slot="header">{{groupId}}</div>
                 <v-card>
-                    <v-card-text>{{groupId}}</v-card-text>
+                    <v-card-text>Size: {{group.baseFile.size}} bytes ({{group.baseFile.gzip_size}} bytes gzipped)</v-card-text>
+                    <v-card-text>Hashes: {{group.baseFile.hashes}}</v-card-text>
                     <v-card-text><h2>Variants</h2></v-card-text>
                     <v-expansion-panel class="variants-list">
                         <v-expansion-panel-content v-for="variant in group.variants" :key="variant.variant.id">
@@ -56,9 +58,9 @@
 </template>
 
 <style>
-    .variants-list {
-        margin: 0 1em;
-    }
+.variants-list {
+  margin: 0 1em;
+}
 </style>
 
 <script>
@@ -74,12 +76,18 @@ export default {
       version: {}
     };
   },
-  asyncData: async function({ params, error, payload }) {
+  asyncData: async function(context) {
+    const { params, error, payload } = context;
     if (payload) {
       return payload;
     }
-    const version = await loadLibraryVersion(params.id, params.version);
+    const version = await loadLibraryVersion(
+      context,
+      params.id,
+      params.version
+    );
     const manifest = await loadLibraryVersionManifest(
+      context,
       params.id,
       params.version
     );
@@ -146,7 +154,8 @@ function getVariant(file) {
   if (!variant) {
     return null;
   }
-  const parent = file.replace(variant.pattern, "") + "." + file.match(variant.pattern)[1];
+  const parent =
+    file.replace(variant.pattern, "") + "." + file.match(variant.pattern)[1];
 
   return {
     parent,

@@ -33,8 +33,9 @@ export default {
       return { title: this.lib.name };
     }
   },
-  asyncData: async function({ params, error, payload }) {
-    const lib = payload ? payload : await loadLibrary(params.id);
+  asyncData: async function(context) {
+    const { params, error, payload } = context;
+    const lib = payload ? payload : await loadLibrary(context, params.id);
     return { lib };
   },
   // mounted() {

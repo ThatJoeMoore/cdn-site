@@ -1,5 +1,20 @@
 <template>
 <div>
+
+  <h2>Readme</h2>
+
+    <div v-if="lib.basic_usage">
+      <h3>Usage</h3>
+      <div v-if="lib.basic_usage.head">
+        <h4><code>&lt;head&gt;</code></h4>
+        <prism-block language="markup" :code="lib.basic_usage.head"></prism-block>
+      </div>
+      <div v-if="lib.basic_usage.body">
+        <h4><code>&lt;body&gt;</code></h4>
+        <prism-block language="markup" :code="lib.basic_usage.body"></prism-block>
+      </div>
+    </div>
+
     <h2>Available Aliases</h2>
 
     <ul>
@@ -42,8 +57,9 @@ export default {
       return { title: this.lib.name };
     }
   },
-  asyncData: async function({ params, error, payload }) {
-    const lib = payload ? payload : await loadLibrary(params.id);
+  asyncData: async function(context) {
+    const { params, error, payload } = context;
+    const lib = payload ? payload : await loadLibrary(context, params.id);
     return { lib };
   },
   // mounted() {

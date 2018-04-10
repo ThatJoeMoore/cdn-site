@@ -15,7 +15,12 @@ switch (process.env.DEPLOY_ENV) {
     break;
 }
 
+const cdnBase = process.env.CDN_BASE || 'https://beta.cdn.byu.edu';
+
 module.exports = {
+  env: {
+    cdnBase
+  },
   /*
   ** Headers of the page
   */
@@ -88,6 +93,7 @@ module.exports = {
     vendor: [
       'axios',
       '~/plugins/vuetify.js',
+      '~/plugins/prism.js',
     ],
     extractCSS: true,
     babel: {
@@ -105,7 +111,7 @@ module.exports = {
     interval: 100,
     dir: generateDir,
     routes: async function() {
-      const resp = await axios.get('https://cdn.byu.edu/manifest.json');
+      const resp = await axios.get(`${cdnBase}/manifest.json`);
       const manifest = resp.data;
       const routes = [];
       for ([id, lib] of Object.entries(manifest.libraries)) {
@@ -117,9 +123,8 @@ module.exports = {
         });
         const versionRoutes = await Promise.all(
           lib.versions.map(async (version) => {
-            const verPath = version.type === 'release' ? version.name : 'experimental/' + version.name;
             const start = Date.now();
-            const manifest = (await axios.get(`https://cdn.byu.edu/${id}/${verPath}/.cdn-meta/version-manifest.json`)).data;
+            const manifest = (await axios.get(cdnBase + version.manifest_path)).data;
             return {
               route: `${libRoute}/${version.name}`,
               payload: {version, manifest},

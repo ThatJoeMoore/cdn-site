@@ -6,7 +6,7 @@
       <nuxt-link slot="read-more" to="/directory">Explore</nuxt-link>
     </byu-hero-banner>
     <div class="content-wrapper">
-
+      
     </div>
   </div>
 </template>

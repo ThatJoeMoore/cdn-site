@@ -18,8 +18,8 @@ export default {
   head: {
     title: "Directory"
   },
-  async asyncData() {
-    return {manifest: await loadManifest()};
+  async asyncData(context) {
+    return {manifest: await loadManifest(context)};
   },
 };
 </script>
