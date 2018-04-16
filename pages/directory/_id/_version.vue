@@ -13,14 +13,20 @@
             <v-expansion-panel-content v-for="(group, groupId) in resourceGroups" :key="groupId">
                 <div slot="header">{{groupId}}</div>
                 <v-card>
-                    <v-card-text>Size: {{group.baseFile.size}} bytes ({{group.baseFile.gzip_size}} bytes gzipped)</v-card-text>
-                    <v-card-text>Hashes: {{group.baseFile.hashes}}</v-card-text>
+                    <v-card-text>Size: {{prettySize(group.baseFile.size)}} bytes ({{prettySize(group.baseFile.gzip_size)}} bytes gzipped)</v-card-text>
+                    <v-card-text><h4>Hashes</h4>
+                      <table>
+                        <tr v-for="(hash, type) in group.baseFile.hashes" :key="type">
+                          <th>{{type}}</th><td>Hex: {{hash.hex}}<br />Base64: {{hash.base64}}</td>
+                        </tr>
+                      </table>
+                      </v-card-text>
                     <v-card-text><h2>Variants</h2></v-card-text>
                     <v-expansion-panel class="variants-list">
                         <v-expansion-panel-content v-for="variant in group.variants" :key="variant.variant.id">
                             <div slot="header">{{variant.variant.id}}</div>
                             <v-card>
-                                <v-card-text>{{variant.info.size}}</v-card-text>
+                                <v-card-text>Size: {{prettySize(variant.info.size)}} bytes ({{prettySize(variant.info.gzip_size)}} bytes gzipped)</v-card-text>
                             </v-card>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -68,6 +74,7 @@ import {
   loadLibraryVersion,
   loadLibraryVersionManifest
 } from "~/assets/manifest-loader.js";
+import * as prettyBytes from 'pretty-bytes';
 
 export default {
   scollToTop: true,
@@ -124,6 +131,11 @@ export default {
       }
 
       return groups;
+    }
+  },
+  methods: {
+    prettySize(input) {
+      return prettyBytes(input);
     }
   }
   //   mounted() {

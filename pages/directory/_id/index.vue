@@ -1,19 +1,14 @@
 <template>
 <div>
 
-  <h2>Readme</h2>
+    <div v-if="readme">
+      <h2>Readme</h2>
+      <Readme :markdown="readme"></Readme>
+    </div>
 
     <div v-if="lib.basic_usage">
-      <h3>Usage</h3>
+      <h2>Usage</h2>
       <Usage :head="lib.basic_usage.head" :body="lib.basic_usage.body"></Usage>
-      <!-- <div v-if="lib.basic_usage.head">
-        <h4><code>&lt;head&gt;</code></h4>
-        <prism-block language="markup" :code="lib.basic_usage.head"></prism-block>
-      </div>
-      <div v-if="lib.basic_usage.body">
-        <h4><code>&lt;body&gt;</code></h4>
-        <prism-block language="markup" :code="lib.basic_usage.body"></prism-block>
-      </div> -->
     </div>
 
     <h2>Available Aliases</h2>
@@ -47,11 +42,13 @@
 
 <script>
 import Usage from "~/components/Usage.vue";
+import Readme from "~/components/Readme.vue";
 import { loadLibrary } from "~/assets/manifest-loader.js";
+import axios from 'axios';
 import * as semver from 'semver';
 
 export default {
-  components: { Usage },
+  components: { Usage, Readme },
   scollToTop: true,
   head() {
     if (this.lib) {
@@ -61,7 +58,16 @@ export default {
   asyncData: async function(context) {
     const { params, error, payload } = context;
     const lib = payload ? payload : await loadLibrary(context, params.id);
-    return { lib };
+    let readme = null;
+    if (lib.links && lib.links.readme) {
+      try {
+        const resp = await axios.get(lib.links.readme);
+        readme = resp.data;
+      } catch (err) {
+        readme = null;
+      }
+    }
+    return { lib, readme };
   },
   // mounted() {
   //     window.scrollTo(0, 0);

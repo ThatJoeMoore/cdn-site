@@ -1,3 +1,5 @@
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
 /*!
  * Vue.js v2.5.16
  * (c) 2014-2018 Evan You
@@ -9,13 +11,6 @@
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
- */
-
-/*!
- * clipboard.js v2.0.0
- * https://zenorocha.github.io/clipboard.js
- * 
- * Licensed MIT © Zeno Rocha
  */
 
 /*!
