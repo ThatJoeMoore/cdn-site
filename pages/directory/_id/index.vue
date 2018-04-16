@@ -5,14 +5,15 @@
 
     <div v-if="lib.basic_usage">
       <h3>Usage</h3>
-      <div v-if="lib.basic_usage.head">
+      <Usage :head="lib.basic_usage.head" :body="lib.basic_usage.body"></Usage>
+      <!-- <div v-if="lib.basic_usage.head">
         <h4><code>&lt;head&gt;</code></h4>
         <prism-block language="markup" :code="lib.basic_usage.head"></prism-block>
       </div>
       <div v-if="lib.basic_usage.body">
         <h4><code>&lt;body&gt;</code></h4>
         <prism-block language="markup" :code="lib.basic_usage.body"></prism-block>
-      </div>
+      </div> -->
     </div>
 
     <h2>Available Aliases</h2>
@@ -45,12 +46,12 @@
 </style>
 
 <script>
-import LibraryTypeIcon from "~/components/LibraryTypeIcon.vue";
+import Usage from "~/components/Usage.vue";
 import { loadLibrary } from "~/assets/manifest-loader.js";
 import * as semver from 'semver';
 
 export default {
-  components: { LibraryTypeIcon },
+  components: { Usage },
   scollToTop: true,
   head() {
     if (this.lib) {

@@ -93,7 +93,7 @@ module.exports = {
     vendor: [
       'axios',
       '~/plugins/vuetify.js',
-      '~/plugins/prism.js',
+      '~/plugins/clipboard.js',
     ],
     extractCSS: true,
     babel: {
